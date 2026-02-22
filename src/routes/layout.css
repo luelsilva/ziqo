@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-ziqo-amber: #f59e0b;
+  --color-ziqo-turquoise: #30D5C8;
+  --color-ziqo-turquoise-dark: #25a097;
+}
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #f8fafc;
+  color: #1e293b;
+}

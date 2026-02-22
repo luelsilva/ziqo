@@ -1,0 +1,24 @@
+
+conta supabase luis.carlos.oliveira.silva@gmail.com
+
+database name: ziqo
+
+senha do db: 1L9BQM7qHuufWwzS
+
+Project URL: https://tfnbweztwirdphuithxr.supabase.co
+
+anon public: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRmbmJ3ZXp0d2lyZHBodWl0aHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE3MTExMTEsImV4cCI6MjA4NzI4NzExMX0.ryUo2N1ycLnnK2QMfTQCMOo6we-6iLL5jo3NZpj1Y88
+
+service_role: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRmbmJ3ZXp0d2lyZHBodWl0aHhyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTcxMTExMSwiZXhwIjoyMDg3Mjg3MTExfQ.vdMB53DdGpFY5EckWE5SlnNGk8gV1X7t825IbEPim9A
+
+Direct connection: postgresql://postgres:1L9BQM7qHuufWwzS@db.tfnbweztwirdphuithxr.supabase.co:5432/postgres
+
+Transaction pooler: postgresql://postgres.tfnbweztwirdphuithxr:1L9BQM7qHuufWwzS@aws-1-sa-east-1.pooler.supabase.com:6543/postgres
+
+Session pooler: postgresql://postgres.tfnbweztwirdphuithxr:1L9BQM7qHuufWwzS@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
+
+Resend Email Domains: <mBook> mbook.lco.com.br
+
+Resend API Key: re_f9DhduXy_BaLMNveMEsCQDvPwM2a67zHs
+
+
