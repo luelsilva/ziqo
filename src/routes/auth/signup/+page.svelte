@@ -2,6 +2,7 @@
     import { signUp } from "$lib/auth-client";
     import { Zap } from "lucide-svelte";
     import { onMount } from "svelte";
+    import { translateAuthError } from "$lib/utils/auth-errors";
 
     let name = "";
     let email = "";
@@ -27,7 +28,7 @@
             });
 
             if (resError) {
-                error = resError.message || "Erro ao criar conta";
+                error = translateAuthError(resError.message);
             } else {
                 success = true;
             }

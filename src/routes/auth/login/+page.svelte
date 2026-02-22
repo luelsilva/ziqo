@@ -2,6 +2,7 @@
     import { signIn } from "$lib/auth-client";
     import { Zap } from "lucide-svelte";
     import { onMount } from "svelte";
+    import { translateAuthError } from "$lib/utils/auth-errors";
     import { page } from "$app/state";
 
     let email = "";
@@ -28,7 +29,7 @@
             });
 
             if (resError) {
-                error = resError.message || "E-mail ou senha incorretos";
+                error = translateAuthError(resError.message);
             }
         } catch (e) {
             error = "Ocorreu um erro inesperado.";
