@@ -1,43 +1,18 @@
 <script lang="ts">
-    import { signUp } from "$lib/auth-client";
-    import { Zap } from "lucide-svelte";
+    import { Zap, Eye, EyeOff } from "lucide-svelte";
     import { onMount } from "svelte";
-    import { translateAuthError } from "$lib/utils/auth-errors";
+    import { enhance } from "$app/forms";
+    import type { ActionData } from "./$types";
 
-    let name = "";
-    let email = "";
-    let password = "";
+    export let form: ActionData;
+
     let loading = false;
-    let error = "";
-    let success = false;
     let visible = false;
+    let showPassword = false;
 
     onMount(() => {
         visible = true;
     });
-
-    async function handleSignup() {
-        loading = true;
-        error = "";
-        try {
-            const { error: resError } = await signUp.email({
-                email,
-                password,
-                name,
-                callbackURL: "/auth/login?registered=true",
-            });
-
-            if (resError) {
-                error = translateAuthError(resError.message);
-            } else {
-                success = true;
-            }
-        } catch (e) {
-            error = "Ocorreu um erro inesperado.";
-        } finally {
-            loading = false;
-        }
-    }
 </script>
 
 <div
@@ -66,22 +41,32 @@
             </p>
         </div>
 
-        {#if error}
+        {#if form?.message}
             <div
                 class="mb-6 p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-medium border border-red-100"
             >
-                {error}
+                {form.message}
             </div>
         {/if}
 
-        {#if success}
+        {#if form?.success}
             <div
                 class="mb-6 p-4 bg-ziqo-turquoise/10 text-ziqo-turquoise-dark rounded-2xl text-sm font-medium border border-ziqo-turquoise/20"
             >
                 Conta criada com sucesso! Verifique seu e-mail para continuar.
             </div>
         {:else}
-            <form on:submit|preventDefault={handleSignup} class="space-y-5">
+            <form
+                method="POST"
+                use:enhance={() => {
+                    loading = true;
+                    return async ({ update }) => {
+                        loading = false;
+                        await update();
+                    };
+                }}
+                class="space-y-5"
+            >
                 <div>
                     <label
                         for="name"
@@ -90,8 +75,8 @@
                     >
                     <input
                         type="text"
+                        name="name"
                         id="name"
-                        bind:value={name}
                         required
                         placeholder="Ex: Luiz Silva"
                         class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-ziqo-amber/20 focus:border-ziqo-amber transition-all text-slate-900 placeholder:text-slate-400"
@@ -106,8 +91,8 @@
                     >
                     <input
                         type="email"
+                        name="email"
                         id="email"
-                        bind:value={email}
                         required
                         placeholder="seu@email.com"
                         class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-ziqo-amber/20 focus:border-ziqo-amber transition-all text-slate-900 placeholder:text-slate-400"
@@ -120,14 +105,27 @@
                         class="block text-sm font-semibold text-slate-700 mb-2"
                         >Senha</label
                     >
-                    <input
-                        type="password"
-                        id="password"
-                        bind:value={password}
-                        required
-                        placeholder="••••••••"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-ziqo-amber/20 focus:border-ziqo-amber transition-all text-slate-900 placeholder:text-slate-400"
-                    />
+                    <div class="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            name="password"
+                            id="password"
+                            required
+                            placeholder="••••••••"
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-ziqo-amber/20 focus:border-ziqo-amber transition-all text-slate-900 placeholder:text-slate-400 pr-12"
+                        />
+                        <button
+                            type="button"
+                            on:click={() => (showPassword = !showPassword)}
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-1"
+                        >
+                            {#if showPassword}
+                                <EyeOff size={20} />
+                            {:else}
+                                <Eye size={20} />
+                            {/if}
+                        </button>
+                    </div>
                     <p class="mt-2 text-xs text-slate-400">
                         Mínimo 8 caracteres
                     </p>

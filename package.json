@@ -9,7 +9,8 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"db:clear": "node scripts/db-clear.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.0",
@@ -18,6 +19,7 @@
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.18",
+		"@types/node": "^25.3.0",
 		"@vite-pwa/sveltekit": "^1.1.0",
 		"dotenv": "^17.3.1",
 		"drizzle-kit": "^0.31.9",
@@ -30,7 +32,6 @@
 		"vite-pwa": "^1.0.2"
 	},
 	"dependencies": {
-		"better-auth": "^1.4.18",
 		"drizzle-orm": "^0.45.1",
 		"postgres": "^3.4.8",
 		"resend": "^6.9.2"

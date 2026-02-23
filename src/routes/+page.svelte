@@ -1,6 +1,9 @@
 <script lang="ts">
-    import { Smartphone, Zap, Shield, Repeat } from "lucide-svelte";
+    import { Smartphone, Zap, Shield, Repeat, LogOut, User } from "lucide-svelte";
     import { onMount } from "svelte";
+    import type { PageData } from "./$types";
+
+    export let data: PageData;
 
     let visible = false;
     onMount(() => {
@@ -30,10 +33,14 @@
                     ? 'translate-y-0 opacity-100'
                     : 'translate-y-4 opacity-0'}"
             >
-                Bem-vindo ao <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-ziqo-amber to-ziqo-turquoise"
-                    >ziqo</span
-                >
+                {#if data.user}
+                    Olá, <span class="text-transparent bg-clip-text bg-gradient-to-r from-ziqo-amber to-ziqo-turquoise">{data.user.name.split(' ')[0]}</span>!
+                {:else}
+                    Bem-vindo ao <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-ziqo-amber to-ziqo-turquoise"
+                        >ziqo</span
+                    >
+                {/if}
             </h1>
 
             <p
@@ -41,9 +48,13 @@
                     ? 'translate-y-0 opacity-100'
                     : 'translate-y-4 opacity-0'}"
             >
-                Uma plataforma progressiva, rápida e focada em performance.
-                Instale agora e experimente a fluidez de um app nativo no seu
-                navegador.
+                {#if data.user}
+                    Você está em sua área premium. Explore as ferramentas progressivas que preparamos para você.
+                {:else}
+                    Uma plataforma progressiva, rápida e focada em performance.
+                    Instale agora e experimente a fluidez de um app nativo no seu
+                    navegador.
+                {/if}
             </p>
 
             <div
@@ -51,18 +62,39 @@
                     ? 'translate-y-0 opacity-100'
                     : 'translate-y-4 opacity-0'}"
             >
-                <a
-                    href="/auth/signup"
-                    class="w-full sm:w-auto px-8 py-4 bg-ziqo-amber text-white text-center font-bold rounded-2xl shadow-lg shadow-ziqo-amber/30 hover:bg-ziqo-amber/90 transition-all hover:scale-105 active:scale-95"
-                >
-                    Começar Agora
-                </a>
-                <a
-                    href="/auth/login"
-                    class="w-full sm:w-auto px-8 py-4 bg-white text-ziqo-turquoise text-center font-bold rounded-2xl border-2 border-ziqo-turquoise/20 hover:border-ziqo-turquoise/50 transition-all hover:scale-105 active:scale-95"
-                >
-                    Entrar no App
-                </a>
+                {#if data.user}
+                    <div class="flex items-center gap-4 bg-white px-6 py-3 rounded-2xl shadow-sm border border-slate-100">
+                        <div class="w-10 h-10 bg-ziqo-turquoise/10 text-ziqo-turquoise rounded-full flex items-center justify-center">
+                            <User size={20} />
+                        </div>
+                        <div class="text-left">
+                            <p class="text-sm font-bold text-slate-900">{data.user.name}</p>
+                            <p class="text-xs text-slate-500">{data.user.email}</p>
+                        </div>
+                    </div>
+                    <form action="/auth/logout" method="POST">
+                        <button
+                            type="submit"
+                            class="flex items-center gap-2 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-slate-800 transition-all hover:scale-105 active:scale-95"
+                        >
+                            <LogOut size={20} />
+                            Sair da Conta
+                        </button>
+                    </form>
+                {:else}
+                    <a
+                        href="/auth/signup"
+                        class="w-full sm:w-auto px-8 py-4 bg-ziqo-amber text-white text-center font-bold rounded-2xl shadow-lg shadow-ziqo-amber/30 hover:bg-ziqo-amber/90 transition-all hover:scale-105 active:scale-95"
+                    >
+                        Começar Agora
+                    </a>
+                    <a
+                        href="/auth/login"
+                        class="w-full sm:w-auto px-8 py-4 bg-white text-ziqo-turquoise text-center font-bold rounded-2xl border-2 border-ziqo-turquoise/20 hover:border-ziqo-turquoise/50 transition-all hover:scale-105 active:scale-95"
+                    >
+                        Entrar no App
+                    </a>
+                {/if}
             </div>
         </div>
     </header>
