@@ -1,0 +1,37 @@
+
+
+O comando "Mágico" (User Data)
+Na hora de criar a instância, existe uma área chamada "Advanced Details" e um campo chamado "User Data". Você pode colar o código abaixo lá para que a instância já nasça com o Docker instalado e pronto:
+
+#!/bin/bash
+# Instala Docker e Docker Compose
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker ubuntu
+sudo systemctl enable docker
+sudo systemctl start docker
+
+# Instala Docker Compose v2 separately if not included
+sudo apt-get update
+sudo apt-get install -y docker-compose-v2
+
+
+
+# Cria um arquivo de 2GB para usar como memória extra
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# Deixa o swap permanente (opcional)
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
+
+# para subir o container
+docker compose up -d --build
+
+# para parar o container
+docker compose down
+
+
+
