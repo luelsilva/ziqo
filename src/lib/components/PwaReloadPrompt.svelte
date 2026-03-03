@@ -1,21 +1,36 @@
 <script lang="ts">
-  import { useRegisterSW } from 'virtual:pwa-register/svelte';
+  import { onMount } from "svelte";
+  import { browser } from "$app/environment";
 
-  const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
-    onRegistered(r) {
-      console.log('SW Registered: ' + r);
-    },
-    onRegisterError(error) {
-      console.log('SW registration error', error);
+  import type { Writable } from "svelte/store";
+
+  let offlineReady: Writable<boolean>;
+  let needRefresh: Writable<boolean>;
+  let updateServiceWorker: (reloadPage?: boolean) => Promise<void>;
+
+  onMount(async () => {
+    if (browser) {
+      const { useRegisterSW } = await import("virtual:pwa-register/svelte");
+      const sw = useRegisterSW({
+        onRegistered(r) {
+          console.log("SW Registered: " + r);
+        },
+        onRegisterError(error) {
+          console.log("SW registration error", error);
+        },
+      });
+      offlineReady = sw.offlineReady;
+      needRefresh = sw.needRefresh;
+      updateServiceWorker = sw.updateServiceWorker;
     }
   });
 
   function close() {
-    offlineReady.set(false);
-    needRefresh.set(false);
+    if (offlineReady) offlineReady.set(false);
+    if (needRefresh) needRefresh.set(false);
   }
 
-  $: toast = $offlineReady || $needRefresh;
+  $: toast = (offlineReady && $offlineReady) || (needRefresh && $needRefresh);
 </script>
 
 {#if toast}
@@ -25,9 +40,12 @@
   >
     <div class="mb-2">
       {#if $offlineReady}
-        <span class="text-amber-600 font-bold">App pronto para funcionar offline!</span>
+        <span class="text-amber-600 font-bold"
+          >App pronto para funcionar offline!</span
+        >
       {:else}
-        <span class="text-turquoise-600 font-bold">Nova versão disponível!</span>
+        <span class="text-turquoise-600 font-bold">Nova versão disponível!</span
+        >
       {/if}
     </div>
     <div class="flex gap-2">

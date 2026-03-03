@@ -1,5 +1,5 @@
 import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+
 
 export const users = pgTable("users", {
     id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
